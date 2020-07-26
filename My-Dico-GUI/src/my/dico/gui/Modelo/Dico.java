@@ -6,7 +6,9 @@
 package my.dico.gui.Modelo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class Dico {
@@ -45,5 +47,17 @@ public class Dico {
         }
         //salida += "datos = " + datos.size() + "\n";
         return salida;
+    }
+    
+    public Set getEnglish() {
+        return datos.keySet();
+    }
+
+    public Collection getSpanish() {
+        return datos.values();
+    }
+    
+    public int size() {
+        return datos.size();
     }
 }
