@@ -5,15 +5,21 @@
  */
 package my.dico.gui.GUI;
 
+import java.awt.Font;
+import my.dico.gui.Modelo.Dico;
+
 /**
  *
  * @author pablojj
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaPrincipal
-     */
+    private static final Dico dico;
+
+    static {
+        dico = new Dico();
+    }
+
     public VentanaPrincipal() {
         initComponents();
     }
@@ -40,6 +46,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setText("Insertar vocabulario nuevo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel1.setText("Buscar palabra_________");
@@ -52,6 +63,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         });
 
         jButton2.setText("buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -118,6 +134,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
         jTextField1.setText("");
     }//GEN-LAST:event_jTextField1FocusGained
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String palabra = jTextField1.getText();
+        boolean e = dico.estaIngles(palabra);
+        String sms = e ? "Te la deberías de saber...\n "
+                + palabra + " : " + dico.significado(palabra) : "Esta palabra no está registrada";
+        jTextArea1.setFont(new Font(Font.SERIF, Font.BOLD, 30));
+        jTextArea1.setText(sms);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new insertar(this, rootPaneCheckingEnabled);
+        /*dico.insertar(insertar.getEnglish(), insertar.getSpanish());
+        insertar.cerrar();*/
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

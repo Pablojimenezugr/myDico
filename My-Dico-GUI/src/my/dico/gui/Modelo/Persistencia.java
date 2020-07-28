@@ -24,7 +24,7 @@ public class Persistencia {
 
         BufferedReader bf = null;
         try {
-            f = new File("/home/pablojj/proyectos/MyDico/MyDico/src/vocabulario.txt");
+            f = new File("/home/pablojj/Escritorio/vocabulario.txt");
             bf = new BufferedReader(new FileReader(f));
             String cadena;
             while ((cadena = bf.readLine()) != null) {

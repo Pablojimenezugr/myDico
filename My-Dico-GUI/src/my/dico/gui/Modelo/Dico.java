@@ -60,4 +60,8 @@ public class Dico {
     public int size() {
         return datos.size();
     }
+
+    public String significado(String text) {
+        return datos.get(text);
+    }
 }

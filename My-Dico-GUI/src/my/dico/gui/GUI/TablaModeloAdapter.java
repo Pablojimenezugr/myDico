@@ -39,7 +39,7 @@ public class TablaModeloAdapter extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         
-        return datos.getEnglish().
+        return null;
     }
     
 }
