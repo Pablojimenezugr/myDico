@@ -1,6 +1,7 @@
 package my.dico.gui.GUI;
 
 import javax.swing.JFrame;
+import my.dico.gui.Modelo.Dico;
 
 /**
  *
@@ -8,11 +9,15 @@ import javax.swing.JFrame;
  */
 public class TablaDico extends javax.swing.JFrame {
 
+    private TablaModeloAdapter modelo;
     
-    public TablaDico() {
+    public TablaDico(Dico d) {
         initComponents();
+        modelo = new TablaModeloAdapter(d);
         setVisible(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        jTable1.setModel(modelo);
     }
 
     
