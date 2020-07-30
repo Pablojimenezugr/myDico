@@ -1,6 +1,7 @@
 package my.dico.gui.GUI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -52,12 +53,11 @@ public class Test extends javax.swing.JFrame {
 
     private void barajarRespuestas() {
         var l = new ArrayList();
-        for (int i = 0; i < respuestas.length; i++) {
-            l.add(respuestas[i]);
-        }
-
+        l.addAll(Arrays.asList(respuestas));
+        
         Collections.shuffle(l);
-        respuestas = (String[]) l.toArray();
+       
+        respuestas = l.toArray().toString();
     }
 
     @SuppressWarnings("unchecked")
