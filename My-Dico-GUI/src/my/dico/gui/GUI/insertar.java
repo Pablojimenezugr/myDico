@@ -1,5 +1,7 @@
 package my.dico.gui.GUI;
 
+import java.awt.event.KeyEvent;
+
 public class insertar extends javax.swing.JDialog {
 
     public insertar(java.awt.Frame parent, boolean modal) {
@@ -37,6 +39,11 @@ public class insertar extends javax.swing.JDialog {
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
             }
         });
 
@@ -99,8 +106,16 @@ public class insertar extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
-        /
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            cerrar();
+        }
     }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            cerrar();
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

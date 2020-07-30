@@ -1,6 +1,7 @@
 package my.dico.gui.GUI;
 
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import my.dico.gui.Modelo.Dico;
 
 /**
@@ -50,6 +51,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
             }
         });
 
@@ -135,13 +141,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTextField1.setText("");
     }//GEN-LAST:event_jTextField1FocusGained
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    
+    private void buscarPalabra() {
         String palabra = jTextField1.getText();
         boolean e = dico.estaIngles(palabra);
         String sms = e ? "Te la deberías de saber...\n "
                 + palabra + " : " + dico.significado(palabra) : "Esta palabra no está registrada";
         jTextArea1.setFont(new Font(Font.SERIF, Font.BOLD, 30));
         jTextArea1.setText(sms);
+    }
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.buscarPalabra();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -151,7 +162,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             es = in.getSpanish();
             en = in.getEnglish();
             dico.insertar(en, es);
-        } while (es.length() != 0);
+        } while (en.length() != 0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -161,6 +172,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         new Test();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            this.buscarPalabra();
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
      * @param args the command line arguments
