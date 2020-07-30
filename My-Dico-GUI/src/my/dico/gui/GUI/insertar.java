@@ -10,16 +10,17 @@ public class insertar extends javax.swing.JDialog {
     }
 
     public String getSpanish() {
-        return jTextField1.getText();
+        return jTextField2.getText();
     }
 
     public String getEnglish() {
-        return jTextField2.getText();
+        return jTextField1.getText();
     }
 
     public void cerrar() {
         this.dispose();
     }
+    
 
     
     @SuppressWarnings("unchecked")
@@ -32,21 +33,31 @@ public class insertar extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTextField1.setText("español");
+        jTextField1.setText("inglés");
         jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField1FocusGained(evt);
             }
         });
 
-        jTextField2.setText("inglés");
+        jTextField2.setText("español");
         jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jTextField2FocusGained(evt);
             }
         });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+        });
 
         jButton1.setText("guardar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -82,6 +93,14 @@ public class insertar extends javax.swing.JDialog {
     private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
         jTextField2.setText("");
     }//GEN-LAST:event_jTextField2FocusGained
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        cerrar();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        /
+    }//GEN-LAST:event_jTextField2KeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

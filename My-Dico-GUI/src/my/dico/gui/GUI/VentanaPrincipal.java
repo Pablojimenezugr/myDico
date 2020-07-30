@@ -20,7 +20,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,9 +145,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new insertar(this, rootPaneCheckingEnabled);
-        /*dico.insertar(insertar.getEnglish(), insertar.getSpanish());
-        insertar.cerrar();*/
+        String es, en;
+        do {
+            var in = new insertar(this, rootPaneCheckingEnabled);
+            es = in.getSpanish();
+            en = in.getEnglish();
+            dico.insertar(en, es);
+        } while (es.length() != 0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
