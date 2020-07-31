@@ -161,7 +161,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             var in = new insertar(this, rootPaneCheckingEnabled);
             es = in.getSpanish();
             en = in.getEnglish();
-            dico.insertar(en, es);
+            if(!es.equals("español"))
+                dico.insertar(en, es);
         } while (en.length() != 0);
     }//GEN-LAST:event_jButton1ActionPerformed
 

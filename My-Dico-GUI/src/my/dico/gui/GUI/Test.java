@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.border.Border;
 import my.dico.gui.Modelo.Dico;
 
 /**
