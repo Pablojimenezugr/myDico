@@ -3,10 +3,12 @@ package my.dico.gui.Modelo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Persistencia {
 
@@ -14,13 +16,15 @@ public class Persistencia {
     private File f;
     private String ruta;
 
-    public Persistencia() {
+    public Persistencia() throws IOException {
 
         lineas = new ArrayList<String>();
-        ruta = "/home/pablojj/Escritorio/vocabulario.txt";
+        this.intentarCargarFichero();
         BufferedReader bf = null;
         try {
+            System.out.println(ruta);
             f = new File(ruta);
+            System.out.println(f);
             bf = new BufferedReader(new FileReader(f));
             String cadena;
             while ((cadena = bf.readLine()) != null) {
@@ -28,10 +32,12 @@ public class Persistencia {
             }
         } catch (final Exception e) {
             System.err.println("No se ha encontrado el fichero");
-           // ruta = JOptionPane.showInputDialog("Dime la ruta donde se encuentra tu fichero con el vocabulario", "C:\\desktop\\vocabulario.txt");
+            this.intentarCargarFichero();
+            
         } finally {
             try {
-                bf.close();
+                if(bf == null)
+                    bf.close();
             } catch (final IOException e) {
                 System.err.println("Problema cerrando ficheros");
             }
@@ -51,5 +57,17 @@ public class Persistencia {
 
     ArrayList<String> getInicio() {
         return lineas;
+    }
+
+    private void intentarCargarFichero() throws FileNotFoundException, IOException, FileNotFoundException, IOException, FileNotFoundException {
+        File f = new File("path.dat");
+        if(f.exists()) {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            ruta = br.readLine();
+            br.close();
+            fr.close();
+        } 
+        
     }
 }
