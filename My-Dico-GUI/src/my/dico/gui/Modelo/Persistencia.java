@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package my.dico.gui.Modelo;
 
 import java.io.BufferedReader;
@@ -17,14 +12,15 @@ public class Persistencia {
 
     private final ArrayList<String> lineas;
     private File f;
+    private String ruta;
 
     public Persistencia() {
 
         lineas = new ArrayList<String>();
-
+        ruta = "/home/pablojj/Escritorio/vocabulario.txt";
         BufferedReader bf = null;
         try {
-            f = new File("/home/pablojj/Escritorio/vocabulario.txt");
+            f = new File(ruta);
             bf = new BufferedReader(new FileReader(f));
             String cadena;
             while ((cadena = bf.readLine()) != null) {
@@ -32,6 +28,7 @@ public class Persistencia {
             }
         } catch (final Exception e) {
             System.err.println("No se ha encontrado el fichero");
+           // ruta = JOptionPane.showInputDialog("Dime la ruta donde se encuentra tu fichero con el vocabulario", "C:\\desktop\\vocabulario.txt");
         } finally {
             try {
                 bf.close();
