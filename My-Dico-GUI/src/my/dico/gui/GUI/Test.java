@@ -21,13 +21,13 @@ public class Test extends javax.swing.JFrame {
     private static final Random rdn;
     private static Dico dico;
     private String correcta;
-    private static int correctas;
-    private static int incorrectas;
+    private static int numeroPreguntas;
     private static Map<Pregunta, Boolean> preguntas;
 
     static {
         rdn = new Random();
         preguntas = new HashMap<>();
+        numeroPreguntas = 10;
     }
 
     public Test(Dico d) {
@@ -60,6 +60,7 @@ public class Test extends javax.swing.JFrame {
 
     private void generarPregunta() {
         Pregunta actual = new Pregunta(
+                dico.getEnglish().toArray()[rdn.nextInt(numeroPreguntas)],
                 
         );
     }

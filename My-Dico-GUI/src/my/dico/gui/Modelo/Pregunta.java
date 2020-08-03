@@ -9,9 +9,9 @@ import java.util.Objects;
  */
 public class Pregunta {
     private final String pregunta;
-    private final String[] respuestas;
+    private final Respuestas respuestas;
 
-    public Pregunta(String pregunta, String[] respuestas) {
+    public Pregunta(String pregunta, Respuestas respuestas) {
         this.pregunta = pregunta;
         this.respuestas = respuestas;
     }
@@ -20,14 +20,14 @@ public class Pregunta {
         return pregunta;
     }
 
-    public String[] getRespuestas() {
+    public Respuestas getRespuestas() {
         return respuestas;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.pregunta);
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.pregunta);
         return hash;
     }
 
@@ -48,5 +48,7 @@ public class Pregunta {
         }
         return true;
     }
+
+    
 
 }
