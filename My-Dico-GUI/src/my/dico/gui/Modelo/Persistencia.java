@@ -8,6 +8,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Persistencia {
 
@@ -17,56 +20,75 @@ public class Persistencia {
 
     public Persistencia() throws IOException {
 
+        f = new File("path.dat");
+        FileReader fr = new FileReader(f);
+        BufferedReader br = new BufferedReader(fr);
+
+        ruta = br.readLine();
+        
+        br.close();
+        fr.close();
+
         lineas = new ArrayList<String>();
         this.intentarCargarFichero();
-        BufferedReader bf = null;
-        try {
-            System.out.println(ruta);
-            f = new File(ruta);
-            System.out.println(f);
-            bf = new BufferedReader(new FileReader(f));
-            String cadena;
-            while ((cadena = bf.readLine()) != null) {
-                lineas.add(cadena);
-            }
-        } catch (final Exception e) {
-            System.err.println("No se ha encontrado el fichero");
-            this.intentarCargarFichero();
-            
-        } finally {
-            try {
-                if(bf == null)
-                    bf.close();
-            } catch (final IOException e) {
-                System.err.println("Problema cerrando ficheros");
-            }
-            
-        }
+
     }
 
     public void persistir(Dico d) {
-        try {
-            var bw = new BufferedWriter(new FileWriter(f));
-            bw.write(d.toString());
-            bw.close();
-        } catch (IOException e) {
-            System.err.println("Error escribiendo en fichero");
-        }
+//        try {
+//            var bw = new BufferedWriter(new FileWriter(f));
+//            bw.write(d.toString());
+//            bw.close();
+//        } catch (IOException e) {
+//            System.err.println("Error escribiendo en fichero");
+//        }
     }
 
     ArrayList<String> getInicio() {
         return lineas;
     }
 
-    private void intentarCargarFichero() throws FileNotFoundException, IOException, FileNotFoundException, IOException, FileNotFoundException {
-        File f = new File("path.dat");
-        if(f.exists()) {
-            FileReader fr = new FileReader(f);
+    private void intentarCargarFichero() {
+        System.out.println("la ruta = " + ruta);
+        FileReader fr;
+        try {
+            fr = new FileReader(new File(this.ruta));
             BufferedReader br = new BufferedReader(fr);
             ruta = br.readLine();
-            br.close();
-            fr.close();
-        } 
-        
+            String cadena;
+            while ((cadena = br.readLine()) != null) {
+                lineas.add(cadena);
+            }
+        } catch (Exception ex) {
+            System.err.println("No he podido leer el dico");
+            this.errorCargandoFichero();
+        }
+
+    }
+
+    private void errorCargandoFichero() {
+        ruta = JOptionPane.showInputDialog("Dinos donde se encuentra tu fichero de datos", "C:\\Documents\\fich.txt");
+
+        f = new File("path.dat");
+        FileWriter fw = null;
+        BufferedWriter br = null;
+        try {
+            
+            fw = new FileWriter(f);
+            br = new BufferedWriter(fw);
+
+            br.write(ruta);
+            
+        } catch (IOException ex) {
+            System.err.println("Problema escribiendo caragdore de ficheros");
+        } finally {
+            try {
+                br.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.err.println("Problema cerrando caragdore de ficheros");
+            }
+        }
+        this.intentarCargarFichero();
     }
 }
