@@ -11,6 +11,7 @@ public class Respuestas {
     private String[] respuestas;
 
     public Respuestas(String resp1, String resp2, String resp3) {
+        respuestas = new String[3];
         this.respuestas[0] = resp1;
         this.respuestas[1] = resp2;
         this.respuestas[2] = resp3;

@@ -3,13 +3,14 @@ package my.dico.gui.GUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import javax.swing.JFrame;
 import my.dico.gui.Modelo.Dico;
 import my.dico.gui.Modelo.Pregunta;
+import my.dico.gui.Modelo.Respuestas;
+
 /**
  *
  * @author pablojj
@@ -40,46 +41,44 @@ public class Test extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
-        correctas = 0;
-        incorrectas = 0;
-        correcta = null;
-        
-        generarPregunta();
-        
+
         setResizable(false);
 
-        this.reflejarEnGUI();
-    }
-    
-    private void reflejarEnGUI() {
-        jLabel2.setText(pregunta);
-        jRadioButton1.setText(respuestas.get(0));
-        jRadioButton2.setText(respuestas.get(1));
-        jRadioButton3.setText(respuestas.get(2));
+        this.generarPregunta();
     }
 
+
     private void generarPregunta() {
-        Pregunta actual = new Pregunta(
-                dico.getEnglish().toArray()[rdn.nextInt(numeroPreguntas)],
-                
-        );
+        Pregunta actual;
+        do {
+            actual = new Pregunta(
+                    (String) dico.getEnglish().toArray()[rdn.nextInt(numeroPreguntas)],
+                    new Respuestas(
+                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)],
+                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)],
+                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)]
+                    )
+            );
+        } while (preguntas.containsKey(actual));
+
+        preguntas.put(actual, null);
+        this.actualizarGUI(actual);
+
     }
-    
+
     private void check(ActionEvent evt) {
         var seleccionado = evt.getActionCommand();
-        if(seleccionado.equals(correcta)) {
+        if (seleccionado.equals(correcta)) {
             jButton1.setBackground(Color.GREEN);
-            correctas++;
             this.generarPregunta();
         } else {
             jButton1.setBackground(Color.RED);
-            incorrectas++;
         }
         jButton1.repaint();
         this.repaint();
-        
+
     }
-    
+
     private void siguiente() {
         generarPregunta();
     }
@@ -95,7 +94,6 @@ public class Test extends javax.swing.JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -132,8 +130,6 @@ public class Test extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
 
-        jLabel3.setText("jLabel3");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,9 +138,7 @@ public class Test extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jLabel1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(61, Short.MAX_VALUE)
@@ -165,9 +159,7 @@ public class Test extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)))
@@ -207,11 +199,30 @@ public class Test extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     // End of variables declaration//GEN-END:variables
 
-    
+    private int getCorrectas() {
+        int c = 0;
+        if (preguntas.size() > 1) {
+            for (boolean b : preguntas.values()) {
+                if (b) {
+                    c++;
+                }
+            }
+        }
+        return c;
+    }
+
+    private void actualizarGUI(Pregunta actual) {
+        jLabel1.setText("Correctas: " + getCorrectas() + "/" + numeroPreguntas);
+        jLabel2.setText(actual.getPregunta().toUpperCase());
+        jRadioButton1.setText(actual.getRespuestas().getRespuestas()[0].toUpperCase());
+        jRadioButton2.setText(actual.getRespuestas().getRespuestas()[1].toUpperCase());
+        jRadioButton3.setText(actual.getRespuestas().getRespuestas()[2].toUpperCase());
+
+    }
+
 }

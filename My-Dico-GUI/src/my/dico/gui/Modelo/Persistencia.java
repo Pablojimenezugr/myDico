@@ -8,20 +8,26 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Persistencia {
 
     private final ArrayList<String> lineas;
     private File f;
-    private String ruta;
+    private String ruta = "/home/pablojj/Escritorio/pruebas.txt";
 
-    public Persistencia() throws IOException {
+    public Persistencia() {
 
         lineas = new ArrayList<String>();
-        this.intentarCargarFichero();
+        try {
+            this.intentarCargarFichero();
+        } catch (IOException ex) {
+            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
         BufferedReader bf = null;
         try {
+            ruta = "/home/pablojj/Escritorio/pruebas.txt";
             System.out.println(ruta);
             f = new File(ruta);
             System.out.println(f);
@@ -32,7 +38,11 @@ public class Persistencia {
             }
         } catch (final Exception e) {
             System.err.println("No se ha encontrado el fichero");
-            this.intentarCargarFichero();
+            try {
+                this.intentarCargarFichero();
+            } catch (IOException ex) {
+                Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } finally {
             try {
