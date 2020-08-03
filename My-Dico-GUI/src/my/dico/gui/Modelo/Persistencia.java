@@ -18,6 +18,11 @@ public class Persistencia {
     private File f;
     private String ruta;
 
+    /**
+     * Se encarga de cargar la ubicación del fichero inicial.
+     * Llama a {intentarCargarFichero} 
+     * @throws IOException 
+     */
     public Persistencia() throws IOException {
 
         f = new File("path.dat");
@@ -34,20 +39,30 @@ public class Persistencia {
 
     }
 
+    /**
+     * Persiste el diccionario cuando se hacen modificacion en RAM
+     */
     public void persistir(Dico d) {
-//        try {
-//            var bw = new BufferedWriter(new FileWriter(f));
-//            bw.write(d.toString());
-//            bw.close();
-//        } catch (IOException e) {
-//            System.err.println("Error escribiendo en fichero");
-//        }
+        try {
+            var bw = new BufferedWriter(new FileWriter(f));
+            bw.write(d.toString());
+            bw.close();
+        } catch (IOException e) {
+            System.err.println("Error escribiendo en fichero");
+        }
     }
 
+    /**
+     * Devuelve las lineas del fichero de persistencia
+     * @return String[] vocabulario
+     */
     ArrayList<String> getInicio() {
         return lineas;
     }
 
+    /**
+     * Intenta rellenar el array de palabras de vocabulario.
+     */
     private void intentarCargarFichero() {
         System.out.println("la ruta = " + ruta);
         FileReader fr;
@@ -66,6 +81,12 @@ public class Persistencia {
 
     }
 
+    /**
+     * En caso de que no se pueda cargar el archivo con la ruta correcta donde
+     * se encuentra el archivo de persistencia; Se lanza una ventana para que el 
+     * usuario introduzca donde localizar este fichero y se vcuelve a 
+     * <intentarCargarFichero()>
+     */
     private void errorCargandoFichero() {
         ruta = JOptionPane.showInputDialog("Dinos donde se encuentra tu fichero de datos", "C:\\Documents\\fich.txt");
 
