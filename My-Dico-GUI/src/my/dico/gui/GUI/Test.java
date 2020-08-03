@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JFrame;
 import my.dico.gui.Modelo.Dico;
-
+import my.dico.gui.Modelo.Pregunta;
 /**
  *
  * @author pablojj
@@ -21,9 +23,11 @@ public class Test extends javax.swing.JFrame {
     private String correcta;
     private static int correctas;
     private static int incorrectas;
+    private static Map<Pregunta, Boolean> preguntas;
 
     static {
         rdn = new Random();
+        preguntas = new HashMap<>();
     }
 
     public Test(Dico d) {
@@ -55,19 +59,9 @@ public class Test extends javax.swing.JFrame {
     }
 
     private void generarPregunta() {
-        jLabel1.setText("Correctas: " + correctas);
-        jLabel3.setText("Incorrectas: " + incorrectas);
-        buttonGroup1.clearSelection();
-        respuestas.clear();
-        int palabra = rdn.nextInt(dico.size());
-        pregunta = (String) dico.getEnglish().toArray()[palabra];
-        correcta = (String) dico.getSpanish().toArray()[palabra];
-        respuestas.add(correcta);
-        respuestas.add((String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())]);
-        respuestas.add((String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())]);
-        Collections.shuffle(respuestas);
-        jButton1.setBackground(null);
-        this.reflejarEnGUI();
+        Pregunta actual = new Pregunta(
+                
+        );
     }
     
     private void check(ActionEvent evt) {
