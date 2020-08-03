@@ -19,24 +19,27 @@ public class Persistencia {
     private String ruta;
 
     /**
-     * Se encarga de cargar la ubicación del fichero inicial.
-     * Llama a {intentarCargarFichero} 
-     * @throws IOException 
+     * Se encarga de cargar la ubicación del fichero inicial. Llama a
+     * {intentarCargarFichero}
+     *
+     * @throws IOException
      */
-    public Persistencia() throws IOException {
-
-        f = new File("path.dat");
-        FileReader fr = new FileReader(f);
-        BufferedReader br = new BufferedReader(fr);
-
-        ruta = br.readLine();
-        
-        br.close();
-        fr.close();
-
+    public Persistencia() {
         lineas = new ArrayList<String>();
-        this.intentarCargarFichero();
+        try {
+            f = new File("path.dat");
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
 
+            ruta = br.readLine();
+
+            br.close();
+            fr.close();
+
+            this.intentarCargarFichero();
+        } catch (IOException e) {
+            System.err.println("No se h apodido cargar el fichero");
+        }
     }
 
     /**
@@ -54,6 +57,7 @@ public class Persistencia {
 
     /**
      * Devuelve las lineas del fichero de persistencia
+     *
      * @return String[] vocabulario
      */
     ArrayList<String> getInicio() {
@@ -83,8 +87,8 @@ public class Persistencia {
 
     /**
      * En caso de que no se pueda cargar el archivo con la ruta correcta donde
-     * se encuentra el archivo de persistencia; Se lanza una ventana para que el 
-     * usuario introduzca donde localizar este fichero y se vcuelve a 
+     * se encuentra el archivo de persistencia; Se lanza una ventana para que el
+     * usuario introduzca donde localizar este fichero y se vcuelve a
      * <intentarCargarFichero()>
      */
     private void errorCargandoFichero() {
@@ -94,12 +98,12 @@ public class Persistencia {
         FileWriter fw = null;
         BufferedWriter br = null;
         try {
-            
+
             fw = new FileWriter(f);
             br = new BufferedWriter(fw);
 
             br.write(ruta);
-            
+
         } catch (IOException ex) {
             System.err.println("Problema escribiendo caragdore de ficheros");
         } finally {
