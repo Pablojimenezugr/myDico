@@ -45,7 +45,7 @@ public class Dico {
         for(Map.Entry<String, String> i : datos.entrySet()) {
             salida += i.getKey() + ":" + i.getValue() + "\n";
         }
-        //salida += "datos = " + datos.size() + "\n";
+        
         return salida;
     }
     

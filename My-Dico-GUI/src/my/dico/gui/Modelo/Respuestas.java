@@ -1,6 +1,8 @@
 package my.dico.gui.Modelo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -9,16 +11,23 @@ import java.util.Arrays;
 public class Respuestas {
 
     private String[] respuestas;
+    private String correcta;
 
-    public Respuestas(String resp1, String resp2, String resp3) {
+    public Respuestas(String resp1, String resp2, String correcta) {
         respuestas = new String[3];
         this.respuestas[0] = resp1;
         this.respuestas[1] = resp2;
-        this.respuestas[2] = resp3;
+        this.respuestas[2] = correcta;
+        this.correcta = correcta;
+        this.barajarRespuestas();
     }
 
     public String[] getRespuestas() {
         return respuestas;
+    }
+    
+    public String getCorrecta() {
+        return correcta;
     }
 
     @Override
@@ -45,7 +54,22 @@ public class Respuestas {
         }
         return true;
     }
-    
-    
+
+    private void barajarRespuestas() {
+        ArrayList<String> tmp = new ArrayList<>(Arrays.asList(
+                this.respuestas[0],
+                this.respuestas[1],
+                this.respuestas[2]
+        ));
+        Collections.shuffle(tmp);
+        for(int i=0; i<3; i++)
+            this.respuestas[i] = tmp.get(i);
+    }
+
+    @Override
+    public String toString() {
+        return "Respuestas{" + "respuestas=" + respuestas + '}';
+    }
+
     
 }

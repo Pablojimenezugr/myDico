@@ -2,73 +2,43 @@ package my.dico.gui.GUI;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 import javax.swing.JFrame;
 import my.dico.gui.Modelo.Dico;
+import my.dico.gui.Modelo.Examen;
 import my.dico.gui.Modelo.Pregunta;
-import my.dico.gui.Modelo.Respuestas;
 
 /**
  *
  * @author pablojj
  */
-public class Test extends javax.swing.JFrame {
-
-    private String pregunta;
-    private ArrayList<String> respuestas;
-    private static final Random rdn;
+public class Test extends JFrame {
+    
     private static Dico dico;
-    private String correcta;
-    private static int numeroPreguntas;
-    private static Map<Pregunta, Boolean> preguntas;
-
-    static {
-        rdn = new Random();
-        preguntas = new HashMap<>();
-        numeroPreguntas = 10;
-    }
+    private static Examen exam;
+    private Pregunta actual;
 
     public Test(Dico d) {
         initComponents();
         setVisible(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
-        respuestas = new ArrayList<String>(3);
+        setResizable(false);
+        
         dico = d;
+        
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
 
-        setResizable(false);
-
+        
+        exam = new Examen(10, dico);
+        System.out.println("dsadasdasdasdasdadasdas");
         this.generarPregunta();
-    }
-
-
-    private void generarPregunta() {
-        Pregunta actual;
-        do {
-            actual = new Pregunta(
-                    (String) dico.getEnglish().toArray()[rdn.nextInt(numeroPreguntas)],
-                    new Respuestas(
-                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)],
-                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)],
-                            (String) dico.getSpanish().toArray()[rdn.nextInt(numeroPreguntas)]
-                    )
-            );
-        } while (preguntas.containsKey(actual));
-
-        preguntas.put(actual, null);
-        this.actualizarGUI(actual);
-
     }
 
     private void check(ActionEvent evt) {
         var seleccionado = evt.getActionCommand();
-        if (seleccionado.equals(correcta)) {
+        if (seleccionado.equals(actual.getRespuestas().getCorrecta())) {
             jButton1.setBackground(Color.GREEN);
             this.generarPregunta();
         } else {
@@ -76,12 +46,22 @@ public class Test extends javax.swing.JFrame {
         }
         jButton1.repaint();
         this.repaint();
-
+    }
+    
+        
+    private void actualizarGUI(Pregunta actual) {
+        jLabel1.setText("Correctas: " + 0 + "/" + 10);
+        jLabel2.setText(actual.getPregunta().toUpperCase());
+        jRadioButton1.setText(actual.getRespuestas().getRespuestas()[0].toUpperCase());
+        jRadioButton2.setText(actual.getRespuestas().getRespuestas()[1].toUpperCase());
+        jRadioButton3.setText(actual.getRespuestas().getRespuestas()[2].toUpperCase());
+    }
+    
+    private void generarPregunta() {
+        actual = exam.siuientePregunta();
+        System.out.println(actual);
     }
 
-    private void siguiente() {
-        generarPregunta();
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -178,7 +158,7 @@ public class Test extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.siguiente();
+        this.actualizarGUI(exam.siuientePregunta());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -203,26 +183,5 @@ public class Test extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     // End of variables declaration//GEN-END:variables
-
-    private int getCorrectas() {
-        int c = 0;
-        if (preguntas.size() > 1) {
-            for (boolean b : preguntas.values()) {
-                if (b) {
-                    c++;
-                }
-            }
-        }
-        return c;
-    }
-
-    private void actualizarGUI(Pregunta actual) {
-        jLabel1.setText("Correctas: " + getCorrectas() + "/" + numeroPreguntas);
-        jLabel2.setText(actual.getPregunta().toUpperCase());
-        jRadioButton1.setText(actual.getRespuestas().getRespuestas()[0].toUpperCase());
-        jRadioButton2.setText(actual.getRespuestas().getRespuestas()[1].toUpperCase());
-        jRadioButton3.setText(actual.getRespuestas().getRespuestas()[2].toUpperCase());
-
-    }
 
 }

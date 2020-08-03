@@ -49,6 +49,11 @@ public class Pregunta {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Pregunta{" + "pregunta=" + pregunta + ", respuestas=" + respuestas + '}';
+    }
+
     
 
 }
