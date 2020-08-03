@@ -3,13 +3,10 @@ package my.dico.gui.Modelo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class Persistencia {
@@ -27,7 +24,7 @@ public class Persistencia {
     public Persistencia() {
         lineas = new ArrayList<String>();
         try {
-            f = new File("path.dat");
+            f = new File("my/path.dat");
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
 
@@ -38,7 +35,7 @@ public class Persistencia {
 
             this.intentarCargarFichero();
         } catch (IOException e) {
-            System.err.println("No se h apodido cargar el fichero");
+            System.err.println("No se h apodido cargar el fichero path");
         }
     }
 

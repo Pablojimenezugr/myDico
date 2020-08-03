@@ -12,11 +12,11 @@ public class insertar extends javax.swing.JDialog {
     }
 
     public String getSpanish() {
-        return jTextField2.getText();
+        return jTextField2.getText().toLowerCase();
     }
 
     public String getEnglish() {
-        return jTextField1.getText();
+        return jTextField1.getText().toLowerCase();
     }
 
     public void cerrar() {
