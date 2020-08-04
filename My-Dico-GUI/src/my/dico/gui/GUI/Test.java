@@ -32,7 +32,7 @@ public class Test extends JFrame {
 
         
         exam = new Examen(10, dico);
-        System.out.println("dsadasdasdasdasdadasdas");
+        
         this.generarPregunta();
     }
 
@@ -59,7 +59,7 @@ public class Test extends JFrame {
     
     private void generarPregunta() {
         actual = exam.siuientePregunta();
-        System.out.println(actual);
+        this.actualizarGUI(actual);
     }
 
 

@@ -20,36 +20,25 @@ public class Examen {
     }
 
     public Examen(int nPreguntas, Dico dico) {
-        
+
+        if(nPreguntas > dico.size()) nPreguntas = dico.size();
         int ale = rdn.nextInt(dico.size());
+        this.preguntas = new ArrayList<>();
 
-        Respuestas r = new Respuestas(
-                (String) dico.getSpanish().toString()[rdn.nextInt(dico.size())],
-                dico.getSpanish().toString()[rdn.nextInt(dico.size())],
-                dico.getSpanish().toString()[ale]
-        );
-        Pregunta p = new Pregunta(dico.getEnglish().toString()[ale], r);
-
-        preguntas.add(p);
-        System.out.println("CARGADO");
         this.aniadirPreguntas(nPreguntas, dico);
     }
 
     private void aniadirPreguntas(int n, Dico dico) {
-        Pregunta p = null;
-        for (int i = 0; i < n - 1; i++) {
-            do {
-                int ale = rdn.nextInt(dico.size());
-                p = new Pregunta(
-                        dico.getEnglish()[ale],
-                        new Respuestas(
-                                dico.getSpanish()[rdn.nextInt(dico.size())],
-                                dico.getSpanish()[rdn.nextInt(dico.size())],
-                                dico.getSpanish()[ale]
-                        ));
+        for (int i = 0; i < n; i++) {
 
-            } while (!preguntas.contains(p));
+            Pregunta p = this.generarPregunta(dico);
+            while (preguntas.contains(p)) {
+                p = this.generarPregunta(dico);
+            }
+            preguntas.add(p);
+
         }
+        System.out.println("Hemos añadido " + preguntas.size());
     }
 
     public Pregunta siuientePregunta() {
@@ -58,4 +47,14 @@ public class Examen {
         return p;
     }
 
+    private Pregunta generarPregunta(Dico dico) {
+        int ale = rdn.nextInt(dico.size());
+        return new Pregunta(
+                (String) dico.getEnglish().toArray()[ale],
+                new Respuestas(
+                        (String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())],
+                        (String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())],
+                        (String) dico.getSpanish().toArray()[ale]
+                ));
+    }
 }
