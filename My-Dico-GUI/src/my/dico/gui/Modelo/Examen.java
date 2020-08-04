@@ -1,7 +1,7 @@
 package my.dico.gui.Modelo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Examen {
 
-    private ArrayList<Pregunta> preguntas;
+    private Map<Pregunta, Boolean> preguntas;
     private static Random rdn;
     private static int i;
 
@@ -23,27 +23,29 @@ public class Examen {
 
         if(nPreguntas > dico.size()) nPreguntas = dico.size();
         int ale = rdn.nextInt(dico.size());
-        this.preguntas = new ArrayList<>();
+        this.preguntas = new HashMap<>();
 
         this.aniadirPreguntas(nPreguntas, dico);
     }
 
     private void aniadirPreguntas(int n, Dico dico) {
         for (int i = 0; i < n; i++) {
-
+            
             Pregunta p = this.generarPregunta(dico);
-            while (preguntas.contains(p)) {
-                p = this.generarPregunta(dico);
-            }
-            preguntas.add(p);
-
+            preguntas.put(p, null);
         }
         System.out.println("Hemos añadido " + preguntas.size());
     }
 
     public Pregunta siuientePregunta() {
-        Pregunta p = preguntas.get(i);
+        Pregunta p = null;
+        try {
+            p = (Pregunta) preguntas.values().toArray()[i];
+        } catch(java.lang.IndexOutOfBoundsException e) {
+            p = null;
+        }
         i++;
+        if(i > preguntas.size()) i = 0;
         return p;
     }
 
@@ -56,5 +58,5 @@ public class Examen {
                         (String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())],
                         (String) dico.getSpanish().toArray()[ale]
                 ));
-    }
+    }   
 }

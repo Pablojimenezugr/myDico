@@ -3,6 +3,7 @@ package my.dico.gui.GUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import my.dico.gui.Modelo.Dico;
 import my.dico.gui.Modelo.Examen;
 import my.dico.gui.Modelo.Pregunta;
@@ -38,7 +39,8 @@ public class Test extends JFrame {
 
     private void check(ActionEvent evt) {
         var seleccionado = evt.getActionCommand();
-        if (seleccionado.equals(actual.getRespuestas().getCorrecta())) {
+        String correcta = actual.getRespuestas().getCorrecta().toUpperCase();
+        if (seleccionado.equals(correcta)) {
             jButton1.setBackground(Color.GREEN);
             this.generarPregunta();
         } else {
@@ -58,8 +60,14 @@ public class Test extends JFrame {
     }
     
     private void generarPregunta() {
+        // Limpio la puntuación de la anterior
+        buttonGroup1.clearSelection();
+        jButton1.setBackground(null);
+        
         actual = exam.siuientePregunta();
-        this.actualizarGUI(actual);
+        // TODO: arreglar inconsistencias
+        if(actual == null) JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
+        else this.actualizarGUI(actual);
     }
 
 
@@ -158,7 +166,7 @@ public class Test extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.actualizarGUI(exam.siuientePregunta());
+        this.generarPregunta();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
