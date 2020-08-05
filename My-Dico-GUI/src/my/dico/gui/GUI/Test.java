@@ -24,6 +24,7 @@ public class Test extends JFrame {
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        jLabel3.setText("");
         
         dico = d;
         
@@ -41,10 +42,13 @@ public class Test extends JFrame {
         var seleccionado = evt.getActionCommand();
         String correcta = actual.getRespuestas().getCorrecta().toUpperCase();
         if (seleccionado.equals(correcta)) {
-            jButton1.setBackground(Color.GREEN);
+            //jButton1.setBackground(Color.GREEN);
+            exam.calificarPregunta(actual);
             this.generarPregunta();
         } else {
             jButton1.setBackground(Color.RED);
+            this.habilitarRadiosButtons(false);
+            jLabel3.setText(correcta);
         }
         jButton1.repaint();
         this.repaint();
@@ -52,11 +56,19 @@ public class Test extends JFrame {
     
         
     private void actualizarGUI(Pregunta actual) {
-        jLabel1.setText("Correctas: " + 0 + "/" + 10);
+        jLabel1.setText("Correctas: " + exam.getCorrectas() + "/" + 10);
         jLabel2.setText(actual.getPregunta().toUpperCase());
+        jLabel3.setText("");
         jRadioButton1.setText(actual.getRespuestas().getRespuestas()[0].toUpperCase());
         jRadioButton2.setText(actual.getRespuestas().getRespuestas()[1].toUpperCase());
         jRadioButton3.setText(actual.getRespuestas().getRespuestas()[2].toUpperCase());
+        this.habilitarRadiosButtons(true);
+    }
+    
+    private void habilitarRadiosButtons(boolean b) {
+        jRadioButton1.setEnabled(b);
+            jRadioButton2.setEnabled(b);
+            jRadioButton3.setEnabled(b);
     }
     
     private void generarPregunta() {
@@ -67,10 +79,14 @@ public class Test extends JFrame {
         actual = exam.siuientePregunta();
         System.out.println(actual);
         // TODO: arreglar inconsistencias
-        if(actual == null) JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
+        if(actual == null) this.finExamen(); 
         else this.actualizarGUI(actual);
     }
 
+    private void finExamen() {
+        JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
+        // invocar a la nueva clase
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -83,6 +99,7 @@ public class Test extends JFrame {
         jRadioButton3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -119,6 +136,11 @@ public class Test extends JFrame {
 
         jLabel1.setText("jLabel1");
 
+        jLabel3.setBackground(new java.awt.Color(0, 204, 0));
+        jLabel3.setFont(new java.awt.Font("Dialog", 3, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 204, 0));
+        jLabel3.setText("jLabel3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,7 +152,9 @@ public class Test extends JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,7 +183,9 @@ public class Test extends JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton3)
                 .addGap(0, 0, 0)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -188,6 +214,7 @@ public class Test extends JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
