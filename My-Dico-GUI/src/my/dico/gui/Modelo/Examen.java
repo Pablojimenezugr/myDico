@@ -43,13 +43,14 @@ public class Examen {
 
     public Pregunta siuientePregunta() {
         Pregunta p = null;
-
-        p = (Pregunta) preguntas.keySet().toArray()[i];
-
-        i++;
-        if (i > preguntas.size()) {
-            i = 0;
+        try {
+            p = (Pregunta) preguntas.keySet().toArray()[i];
+        } catch(java.lang.ArrayIndexOutOfBoundsException e) {
+            p = null;
         }
+        i++;
+        if (i > preguntas.size()) i = 0;
+        
         return p;
     }
 
