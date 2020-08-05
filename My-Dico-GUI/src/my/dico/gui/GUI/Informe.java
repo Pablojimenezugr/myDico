@@ -1,17 +1,27 @@
 package my.dico.gui.GUI;
 
+import java.util.List;
+
 /**
  *
  * @author Pablo Jj
  */
 public class Informe extends javax.swing.JFrame {
 
-    public Informe() {
+    public Informe(List palabras) {
         initComponents();
-        
+        jTextArea1.setText("Has fallado\n");
+        jTextArea1.append("============\n");
+        palabras.forEach(i -> {
+            jTextArea1.append(i + "\n");
+        });
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(javax.swing.JFrame.HIDE_ON_CLOSE);
+
     }
 
-       @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -28,11 +38,19 @@ public class Informe extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jButton1.setText("salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

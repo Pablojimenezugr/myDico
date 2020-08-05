@@ -31,6 +31,7 @@ public class Examen {
 
         this.aniadirPreguntas(nPreguntas, dico);
     }
+    
 
     private void aniadirPreguntas(int n, Dico dico) {
         for (int i = 0; i < n; i++) {
@@ -87,6 +88,18 @@ public class Examen {
         //System.err.println(preguntas);
         System.out.println("correctas = " + c);
         return c;
+    }
+
+    public List getErroneas() {
+        ArrayList<String> salida = new ArrayList<>();
+        preguntas.entrySet().stream().filter(i -> (!i.getValue())).forEachOrdered(i -> {
+            salida.add(i.getKey().getPregunta());
+        });
+        return salida;
+    }
+
+    public int getPregunta() {
+        return i;
     }
 
 }
