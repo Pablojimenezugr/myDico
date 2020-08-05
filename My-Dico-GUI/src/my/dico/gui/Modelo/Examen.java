@@ -31,12 +31,13 @@ public class Examen {
 
         this.aniadirPreguntas(nPreguntas, dico);
     }
+    
 
     private void aniadirPreguntas(int n, Dico dico) {
         for (int i = 0; i < n; i++) {
 
             Pregunta p = this.generarPregunta(dico);
-            preguntas.put(p, null);
+            preguntas.put(p, false);
         }
         System.out.println("Hemos añadido " + preguntas.size());
     }
@@ -68,6 +69,37 @@ public class Examen {
     @Override
     public String toString() {
         return "Examen{" + "preguntas=" + preguntas + '}';
+    }
+
+    /**
+     * Se califica la pregunta como correcta (en principio asumimos que todas
+     * son erroneas).
+     * @param actual Pregunta actual
+     */
+    public void calificarPregunta(Pregunta actual) {
+        System.out.println("califuicando " +  actual);
+        preguntas.put(actual, true);
+        System.err.println(preguntas);
+    }
+
+    public int getCorrectas() {
+        int c = 0;
+        c = preguntas.values().stream().filter(i -> (i)).map(_item -> 1).reduce(c, Integer::sum);
+        //System.err.println(preguntas);
+        System.out.println("correctas = " + c);
+        return c;
+    }
+
+    public List getErroneas() {
+        ArrayList<String> salida = new ArrayList<>();
+        preguntas.entrySet().stream().filter(i -> (!i.getValue())).forEachOrdered(i -> {
+            salida.add(i.getKey().getPregunta());
+        });
+        return salida;
+    }
+
+    public int getPregunta() {
+        return i;
     }
 
 }

@@ -15,7 +15,7 @@ public class Persistencia {
 
     private final ArrayList<String> lineas;
     private File f;
-    private String ruta = "/home/pablojj/Escritorio/pruebas.txt";
+    private String ruta = "/home/pablojj/Escritorio/no.txt";
 
     public Persistencia() {
 
@@ -27,7 +27,7 @@ public class Persistencia {
         }
         BufferedReader bf = null;
         try {
-            ruta = "/home/pablojj/Escritorio/pruebas.txt";
+            ruta = "/home/pablojj/Escritorio/no.txt";
             System.out.println(ruta);
             f = new File(ruta);
             System.out.println(f);
