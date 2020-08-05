@@ -65,6 +65,7 @@ public class Test extends JFrame {
         jButton1.setBackground(null);
         
         actual = exam.siuientePregunta();
+        System.out.println(actual);
         // TODO: arreglar inconsistencias
         if(actual == null) JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
         else this.actualizarGUI(actual);
