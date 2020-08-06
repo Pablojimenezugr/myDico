@@ -2,7 +2,11 @@ package my.dico.gui.GUI;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import my.dico.gui.Modelo.Dico;
+import my.dico.gui.Modelo.Examen;
 
 /**
  *
@@ -13,7 +17,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private static final Dico dico;
 
     static {
+
         dico = new Dico();
+
     }
 
     public VentanaPrincipal() {
@@ -142,7 +148,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTextField1.setText("");
     }//GEN-LAST:event_jTextField1FocusGained
 
-    
     private void buscarPalabra() {
         String palabra = jTextField1.getText();
         boolean e = dico.estaIngles(palabra);
@@ -151,7 +156,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jTextArea1.setFont(new Font(Font.SERIF, Font.BOLD, 30));
         jTextArea1.setText(sms);
     }
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.buscarPalabra();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -162,8 +167,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             var in = new insertar(this, rootPaneCheckingEnabled);
             es = in.getSpanish();
             en = in.getEnglish();
-            if(!es.equals("español"))
+            if (!es.equals("español")) {
                 dico.insertar(en, es);
+            }
         } while (en.length() != 0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -172,11 +178,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new Test(dico);
+        Examen e = new Examen(dico);
+        new Test(e);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             this.buscarPalabra();
         }
     }//GEN-LAST:event_jTextField1KeyPressed

@@ -2,91 +2,94 @@ package my.dico.gui.GUI;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import my.dico.gui.Modelo.Dico;
+import my.dico.gui.Modelo.Examen;
+import my.dico.gui.Modelo.Pregunta;
 
 /**
  *
  * @author pablojj
  */
-public class Test extends javax.swing.JFrame {
+public class Test extends JFrame {
 
-    private String pregunta;
-    private ArrayList<String> respuestas;
-    private static final Random rdn;
-    private static Dico dico;
-    private String correcta;
-    private static int correctas;
-    private static int incorrectas;
+    private static Examen exam;
+    private Pregunta actual;
+    private int nPreguntas;
 
-    static {
-        rdn = new Random();
-    }
-
-    public Test(Dico d) {
+    public Test(Examen exam) {
         initComponents();
         setVisible(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
-        respuestas = new ArrayList<String>(3);
-        dico = d;
+        setResizable(false);
+        jLabel3.setText("");
+
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
-        correctas = 0;
-        incorrectas = 0;
-        correcta = null;
-        
-        generarPregunta();
-        
-        setResizable(false);
 
-        this.reflejarEnGUI();
-    }
-    
-    private void reflejarEnGUI() {
-        jLabel2.setText(pregunta);
-        jRadioButton1.setText(respuestas.get(0));
-        jRadioButton2.setText(respuestas.get(1));
-        jRadioButton3.setText(respuestas.get(2));
+        nPreguntas = Integer.parseInt(JOptionPane.showInputDialog("Número de preguntas", "10"));
+        this.exam = exam;
+        this.exam.setNPreguntas(nPreguntas);
+
+        this.generarPregunta();
     }
 
-    private void generarPregunta() {
-        jLabel1.setText("Correctas: " + correctas);
-        jLabel3.setText("Incorrectas: " + incorrectas);
-        buttonGroup1.clearSelection();
-        respuestas.clear();
-        int palabra = rdn.nextInt(dico.size());
-        pregunta = (String) dico.getEnglish().toArray()[palabra];
-        correcta = (String) dico.getSpanish().toArray()[palabra];
-        respuestas.add(correcta);
-        respuestas.add((String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())]);
-        respuestas.add((String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())]);
-        Collections.shuffle(respuestas);
-        jButton1.setBackground(null);
-        this.reflejarEnGUI();
-    }
-    
     private void check(ActionEvent evt) {
         var seleccionado = evt.getActionCommand();
-        if(seleccionado.equals(correcta)) {
-            jButton1.setBackground(Color.GREEN);
-            correctas++;
+        String correcta = actual.getRespuestas().getCorrecta().toUpperCase();
+        if (seleccionado.equals(correcta)) {
+            //jButton1.setBackground(Color.GREEN);
+            exam.calificarPregunta(actual);
             this.generarPregunta();
         } else {
             jButton1.setBackground(Color.RED);
-            incorrectas++;
+            this.habilitarRadiosButtons(false);
+            jLabel3.setText(correcta);
         }
         jButton1.repaint();
         this.repaint();
-        
     }
-    
-    private void siguiente() {
-        generarPregunta();
+
+    private void actualizarGUI(Pregunta actual) {
+        jLabel1.setText("Correctas: " + exam.getCorrectas() + "/" + nPreguntas);
+        jLabel2.setText(actual.getPregunta().toUpperCase());
+        jLabel3.setText("");
+        jRadioButton1.setText(actual.getRespuestas().getRespuestas()[0].toUpperCase());
+        jRadioButton2.setText(actual.getRespuestas().getRespuestas()[1].toUpperCase());
+        jRadioButton3.setText(actual.getRespuestas().getRespuestas()[2].toUpperCase());
+        this.habilitarRadiosButtons(true);
+        jButton1.setText(exam.getPregunta() + "/" + nPreguntas);
+    }
+
+    private void habilitarRadiosButtons(boolean b) {
+        jRadioButton1.setEnabled(b);
+        jRadioButton2.setEnabled(b);
+        jRadioButton3.setEnabled(b);
+    }
+
+    private void generarPregunta() {
+        // Limpio la puntuación de la anterior
+        buttonGroup1.clearSelection();
+        jButton1.setBackground(null);
+
+        actual = exam.siuientePregunta();
+        System.out.println(actual);
+        // TODO: arreglar inconsistencias
+        if (actual == null) {
+            this.finExamen();
+        } else {
+            this.actualizarGUI(actual);
+        }
+    }
+
+    private void finExamen() {
+        JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
+        // invocar a la nueva clase
+        new Informe(exam);
+        this.dispose();
     }
 
     @SuppressWarnings("unchecked")
@@ -137,6 +140,9 @@ public class Test extends javax.swing.JFrame {
 
         jLabel1.setText("jLabel1");
 
+        jLabel3.setBackground(new java.awt.Color(0, 204, 0));
+        jLabel3.setFont(new java.awt.Font("Dialog", 3, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 204, 0));
         jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,22 +153,25 @@ public class Test extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(jLabel1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton1)
                             .addContainerGap())
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(43, 43, 43)))))
+                            .addGap(43, 43, 43)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,9 +179,7 @@ public class Test extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)))
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)))
@@ -183,7 +190,9 @@ public class Test extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jRadioButton3)
                 .addGap(0, 0, 0)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jLabel3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -191,7 +200,7 @@ public class Test extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.siguiente();
+        this.generarPregunta();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -218,5 +227,4 @@ public class Test extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton3;
     // End of variables declaration//GEN-END:variables
 
-    
 }
