@@ -15,21 +15,17 @@ public class Examen {
     private Map<Pregunta, Boolean> preguntas;
     private static Random rdn;
     private static int i;
+    private static Dico dico;
 
     static {
         i = 0;
         rdn = new Random();
     }
 
-    public Examen(int nPreguntas, Dico dico) {
-
-        if (nPreguntas > dico.size()) {
-            nPreguntas = dico.size();
-        }
+    public Examen(Dico dico) {
         int ale = rdn.nextInt(dico.size());
         this.preguntas = new HashMap<>();
-
-        this.aniadirPreguntas(nPreguntas, dico);
+        this.dico = dico;
     }
     
 
@@ -60,8 +56,8 @@ public class Examen {
         return new Pregunta(
                 (String) dico.getEnglish().toArray()[ale],
                 new Respuestas(
-                        (String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())],
-                        (String) dico.getSpanish().toArray()[rdn.nextInt(dico.size())],
+                        (String) dico.getSpanish().toArray()[ale + rdn.nextInt(dico.size() - ale)],
+                        (String) dico.getSpanish().toArray()[ale + 3],
                         (String) dico.getSpanish().toArray()[ale]
                 ));
     }
@@ -98,8 +94,21 @@ public class Examen {
         return salida;
     }
 
+    public Map<Pregunta, Boolean> getPreguntas() {
+        return preguntas;
+    }
+    
+    
+
     public int getPregunta() {
         return i;
+    }
+
+    public void setNPreguntas(int nPreguntas) {
+        if (nPreguntas > dico.size()) {
+            nPreguntas = dico.size();
+        }
+        this.aniadirPreguntas(nPreguntas, dico);
     }
 
 }

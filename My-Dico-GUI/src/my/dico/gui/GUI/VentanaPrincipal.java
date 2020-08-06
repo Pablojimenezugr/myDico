@@ -3,6 +3,7 @@ package my.dico.gui.GUI;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import my.dico.gui.Modelo.Dico;
+import my.dico.gui.Modelo.Examen;
 
 /**
  *
@@ -172,7 +173,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        new Test(dico);
+        Examen e = new Examen(dico);
+        new Test(e);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed

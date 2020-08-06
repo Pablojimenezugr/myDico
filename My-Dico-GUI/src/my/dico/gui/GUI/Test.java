@@ -13,29 +13,27 @@ import my.dico.gui.Modelo.Pregunta;
  * @author pablojj
  */
 public class Test extends JFrame {
-    
-    private static Dico dico;
+
     private static Examen exam;
     private Pregunta actual;
     private int nPreguntas;
 
-    public Test(Dico d) {
+    public Test(Examen exam) {
         initComponents();
         setVisible(true);
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
         jLabel3.setText("");
-        
-        dico = d;
-        
+
         buttonGroup1.add(jRadioButton1);
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
 
         nPreguntas = Integer.parseInt(JOptionPane.showInputDialog("Número de preguntas", "10"));
-        exam = new Examen(nPreguntas, dico);
-        
+        this.exam = exam;
+        this.exam.setNPreguntas(nPreguntas);
+
         this.generarPregunta();
     }
 
@@ -54,8 +52,7 @@ public class Test extends JFrame {
         jButton1.repaint();
         this.repaint();
     }
-    
-        
+
     private void actualizarGUI(Pregunta actual) {
         jLabel1.setText("Correctas: " + exam.getCorrectas() + "/" + nPreguntas);
         jLabel2.setText(actual.getPregunta().toUpperCase());
@@ -66,29 +63,32 @@ public class Test extends JFrame {
         this.habilitarRadiosButtons(true);
         jButton1.setText(exam.getPregunta() + "/" + nPreguntas);
     }
-    
+
     private void habilitarRadiosButtons(boolean b) {
         jRadioButton1.setEnabled(b);
-            jRadioButton2.setEnabled(b);
-            jRadioButton3.setEnabled(b);
+        jRadioButton2.setEnabled(b);
+        jRadioButton3.setEnabled(b);
     }
-    
+
     private void generarPregunta() {
         // Limpio la puntuación de la anterior
         buttonGroup1.clearSelection();
         jButton1.setBackground(null);
-        
+
         actual = exam.siuientePregunta();
         System.out.println(actual);
         // TODO: arreglar inconsistencias
-        if(actual == null) this.finExamen(); 
-        else this.actualizarGUI(actual);
+        if (actual == null) {
+            this.finExamen();
+        } else {
+            this.actualizarGUI(actual);
+        }
     }
 
     private void finExamen() {
         JOptionPane.showMessageDialog(this, "Se ha terminado el examen");
         // invocar a la nueva clase
-        new Informe(exam.getErroneas());
+        new Informe(exam);
         this.dispose();
     }
 
