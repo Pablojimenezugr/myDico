@@ -3,13 +3,13 @@ package my.dico.gui.Modelo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class Persistencia {
 
@@ -20,11 +20,7 @@ public class Persistencia {
     public Persistencia() {
 
         lineas = new ArrayList<String>();
-        try {
-            this.intentarCargarFichero();
-        } catch (IOException ex) {
-            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.intentarCargarFichero();
         BufferedReader bf = null;
         try {
             ruta = "/home/pablojj/Escritorio/no.txt";
@@ -38,11 +34,7 @@ public class Persistencia {
             }
         } catch (final Exception e) {
             System.err.println("No se ha encontrado el fichero");
-            try {
-                this.intentarCargarFichero();
-            } catch (IOException ex) {
-                Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            this.intentarCargarFichero();
             
         } finally {
             try {
@@ -51,10 +43,13 @@ public class Persistencia {
             } catch (final IOException e) {
                 System.err.println("Problema cerrando ficheros");
             }
-            
+ 
         }
     }
 
+    /**
+     * Persiste el diccionario cuando se hacen modificacion en RAM
+     */
     public void persistir(Dico d) {
         try {
             var bw = new BufferedWriter(new FileWriter(f));
@@ -65,19 +60,65 @@ public class Persistencia {
         }
     }
 
+    /**
+     * Devuelve las lineas del fichero de persistencia
+     *
+     * @return String[] vocabulario
+     */
     ArrayList<String> getInicio() {
         return lineas;
     }
 
-    private void intentarCargarFichero() throws FileNotFoundException, IOException, FileNotFoundException, IOException, FileNotFoundException {
-        File f = new File("path.dat");
-        if(f.exists()) {
-            FileReader fr = new FileReader(f);
+    /**
+     * Intenta rellenar el array de palabras de vocabulario.
+     */
+    private void intentarCargarFichero() {
+        System.out.println("la ruta = " + ruta);
+        FileReader fr;
+        try {
+            fr = new FileReader(new File(this.ruta));
             BufferedReader br = new BufferedReader(fr);
             ruta = br.readLine();
-            br.close();
-            fr.close();
-        } 
-        
+            String cadena;
+            while ((cadena = br.readLine()) != null) {
+                lineas.add(cadena);
+            }
+        } catch (Exception ex) {
+            System.err.println("No he podido leer el dico");
+            this.errorCargandoFichero();
+        }
+
+    }
+
+    /**
+     * En caso de que no se pueda cargar el archivo con la ruta correcta donde
+     * se encuentra el archivo de persistencia; Se lanza una ventana para que el
+     * usuario introduzca donde localizar este fichero y se vcuelve a
+     * <intentarCargarFichero()>
+     */
+    private void errorCargandoFichero() {
+        ruta = JOptionPane.showInputDialog("Dinos donde se encuentra tu fichero de datos", "C:\\Documents\\fich.txt");
+
+        f = new File("path.dat");
+        FileWriter fw = null;
+        BufferedWriter br = null;
+        try {
+
+            fw = new FileWriter(f);
+            br = new BufferedWriter(fw);
+
+            br.write(ruta);
+
+        } catch (IOException ex) {
+            System.err.println("Problema escribiendo caragdore de ficheros");
+        } finally {
+            try {
+                br.close();
+                fw.close();
+            } catch (IOException ex) {
+                System.err.println("Problema cerrando caragdore de ficheros");
+            }
+        }
+        this.intentarCargarFichero();
     }
 }

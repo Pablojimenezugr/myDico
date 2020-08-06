@@ -92,6 +92,6 @@ public class Informe extends javax.swing.JFrame {
             a.add(e);
         }
         
-        e = new Examen();
+     
     }
 }
