@@ -83,10 +83,15 @@ public class Informe extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * Ponemos solo las preguntas que estan a false
+     */
     private void modificarExamen() {
         ArrayList a = new ArrayList<Pregunta>();
-        e.getPreguntas().entrySet().stream().filter(i -> (!i.getValue())).forEachOrdered(i -> {
-            a.add(i.get);
-        });
+        for(var e : e.getErroneas()) {
+            a.add(e);
+        }
+        
+        e = new Examen();
     }
 }
